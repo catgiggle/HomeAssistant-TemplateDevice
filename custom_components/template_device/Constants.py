@@ -1,0 +1,10 @@
+AUTHOR = 'Damian Wójcik'
+CONFIG_ASSIGN_MANAGER = 'assign_manager'
+CONFIG_DISPLAY_NAME = 'display_name'
+CONFIG_INTERNAL_NAME = 'internal_name'
+CONFIG_STORAGE_PATH = 'storage_path'
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+DOMAIN = 'template_device'
+NAME = 'Template Device'
+PLATFORMS = ['sensor']
+VERSION = '0.1.0'

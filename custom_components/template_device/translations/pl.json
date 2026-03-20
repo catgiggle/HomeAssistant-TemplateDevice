@@ -1,0 +1,18 @@
+{
+  "config": {
+    "error": {
+      "invalid_display_name": "Musi zawierać co najmniej jedną literę.",
+      "invalid_internal_name": "Dozwolone są tylko małe litery, cyfry i podkreślenia."
+    },
+    "step": {
+      "user": {
+        "title": "Template Device",
+        "description": "Pozwala utworzyć wirtualne urządzenie do organizowania i grupowania encji.",
+        "data": {
+          "display_name": "Nazwa wyświetlana",
+          "internal_name": "Nazwa wewnętrzna i prefiks encji"
+        }
+      }
+    }
+  }
+}

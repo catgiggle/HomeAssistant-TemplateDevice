@@ -1,0 +1,18 @@
+{
+  "config": {
+    "error": {
+      "invalid_display_name": "Must contain at least one letter.",
+      "invalid_internal_name": "Only lowercase letters, numbers, and underscores are allowed."
+    },
+    "step": {
+      "user": {
+        "title": "Template Device",
+        "description": "Allows you to create a virtual device to organize and group entities.",
+        "data": {
+          "display_name": "Display name",
+          "internal_name": "Internal name and entity prefix"
+        }
+      }
+    }
+  }
+}

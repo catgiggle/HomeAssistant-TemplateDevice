@@ -1,0 +1,13 @@
+{
+  "domain": "template_device",
+  "name": "Template Device",
+  "version": "0.1.0",
+  "codeowners": [
+    "@catgiggle"
+  ],
+  "iot_class": "local_push",
+  "config_flow": true,
+  "documentation": "https://github.com/catgiggle/HomeAssistant-TemplateDevice",
+  "issue_tracker": "https://github.com/catgiggle/HomeAssistant-TemplateDevice/issues",
+  "requirements": []
+}

@@ -1,4 +1,4 @@
-from ..Constants import *
+from ..constants import *
 
 
 class StatusService:
@@ -14,6 +14,4 @@ class StatusService:
         )
 
     async def handle(self, _request):
-        config = self._hass.data[DOMAIN]
-
-        return config[CONFIG_ASSIGN_MANAGER].status()
+        return await self._hass.data[DOMAIN][CONFIG_ASSIGN_MANAGER].async_status()

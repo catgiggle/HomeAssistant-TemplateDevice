@@ -15,14 +15,22 @@ It is especially useful when you want to:
 
 This integration is installed via **HACS**:
 
-1. In Home Assistant, go to **HACS → Integrations → Custom Repositories**.
-2. Enter the repository URL: `https://github.com/catgiggle/HomeAssistant-TemplateDevice`.
-3. Set the type to **Integration** and click **Add**.
-4. Install the integration through HACS.
-5. Restart Home Assistant.
-6. The integration will appear under **Configuration → Integrations**.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=catgiggle&repository=HomeAssistant-TemplateDevice)
+
+1. Click the button above to open the repository in HACS.
+2. Click **Download** to download the integration.
+3. Restart Home Assistant.
+
+**Note:** Alternatively, you can add `https://github.com/catgiggle/HomeAssistant-TemplateDevice` as a custom repository
+under **HACS → Integrations**.
 
 ## Configuration
+
+[![Open your Home Assistant instance and show an integration.](https://my.home-assistant.io/badges/integration.svg)](https://my.home-assistant.io/redirect/integration/?domain=template_device)
+
+1. Click the button above or go to **Settings → Devices & Services → Add Integration** and search for **Template
+   Device**.
+2. Configure the instance parameters:
 
 You can add **multiple instances** of this integration. Each instance represents a virtual device.
 

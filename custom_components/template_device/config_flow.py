@@ -5,7 +5,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.util import slugify
 
-from .Constants import *
+from .constants import *
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -32,6 +32,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 normalizedName = slugify(formFields[CONFIG_DISPLAY_NAME])
 
             if not formErrors:
+                await self.async_set_unique_id(normalizedName)
+                self._abort_if_unique_id_configured()
+
                 return self.async_create_entry(title=formFields[CONFIG_DISPLAY_NAME], data={
                     CONFIG_DISPLAY_NAME: formFields[CONFIG_DISPLAY_NAME],
                     CONFIG_INTERNAL_NAME: normalizedName,

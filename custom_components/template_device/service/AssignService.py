@@ -1,0 +1,26 @@
+import homeassistant.helpers.config_validation as cv
+import voluptuous as vol
+
+from ..constants import *
+
+
+class AssignService:
+    def __init__(self, hass):
+        self._hass = hass
+
+    def register(self):
+        self._hass.services.async_register(
+            DOMAIN,
+            'assign',
+            self.handle,
+            schema=vol.Schema({
+                vol.Required(FIELD_ENTITY_ID): cv.entity_ids,
+                vol.Required(FIELD_DEVICE_ID): cv.string,
+            }),
+        )
+
+    async def handle(self, request):
+        await self._hass.data[DOMAIN][CONFIG_ASSIGN_MANAGER].async_entity_assign(
+            request.data.get(FIELD_ENTITY_ID),
+            request.data.get(FIELD_DEVICE_ID)
+        )

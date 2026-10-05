@@ -1,7 +1,7 @@
 from homeassistant.helpers.device_registry import DeviceInfo
 
-from .Constants import *
-from .Sensor.StateSensor import StateSensor
+from .StateSensor import StateSensor
+from ..constants import *
 
 
 async def async_setup_entry(hass, entry, async_add_entities):
@@ -13,4 +13,4 @@ async def async_setup_entry(hass, entry, async_add_entities):
         serial_number=config[CONFIG_INTERNAL_NAME],
         manufacturer=AUTHOR,
         sw_version=VERSION,
-    ))], True)
+    ))], False)

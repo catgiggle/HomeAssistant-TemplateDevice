@@ -1,14 +1,18 @@
-import os
+from pathlib import Path
 
-from custom_components.template_device.Utils.Database import Database
+from ..utils.Database import Database
 
 
 class StorageBuilder:
-    def __init__(self, storagePath):
-        self._storagePath = storagePath
+    def __init__(self, hass, storagePath):
+        self._hass = hass
+        self._storagePath = Path(storagePath)
 
-    def build(self):
-        os.makedirs(os.path.dirname(self._storagePath), exist_ok=True)
+    async def async_build(self):
+        await self._hass.async_add_executor_job(self._build)
+
+    def _build(self):
+        self._storagePath.parent.mkdir(parents=True, exist_ok=True)
 
         with Database.connect(self._storagePath) as connection:
             connection.execute('''

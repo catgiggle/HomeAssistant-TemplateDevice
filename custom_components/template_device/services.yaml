@@ -8,12 +8,13 @@ assign:
       example: "sensor.example_sensor"
       selector:
         entity:
+          multiple: true
     device_id:
       required: true
       description: The ID of the device to which the entity will be assigned.
       example: "9ede4ee75fe68ef29a139980b1eb756d"
       selector:
-        entity:
+        device:
 
 unassign:
   name: Unassign entity from device
@@ -25,6 +26,7 @@ unassign:
       example: "sensor.example_sensor"
       selector:
         entity:
+          multiple: true
 
 status:
   name: Get assignment status

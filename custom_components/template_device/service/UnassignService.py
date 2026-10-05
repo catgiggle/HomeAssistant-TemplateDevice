@@ -15,10 +15,12 @@ class UnassignService:
             self.handle,
             schema=vol.Schema({
                 vol.Required(FIELD_ENTITY_ID): cv.entity_ids,
+                vol.Required(FIELD_DEVICE_ID): cv.string,
             }),
         )
 
     async def handle(self, request):
         await self._hass.data[DOMAIN][CONFIG_ASSIGN_MANAGER].async_entity_unassign(
-            request.data.get(FIELD_ENTITY_ID)
+            request.data.get(FIELD_ENTITY_ID),
+            request.data.get(FIELD_DEVICE_ID)
         )

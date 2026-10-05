@@ -22,15 +22,15 @@ class AssignManager:
             self._storeInDatabase, entityIds, deviceId
         )
 
-    async def async_entity_unassign(self, entityIds):
+    async def async_entity_unassign(self, entityIds, deviceId):
         if isinstance(entityIds, str):
             entityIds = [entityIds]
 
         for entityId in entityIds:
-            self._deleteFromRegistry(entityId)
+            self._deleteFromRegistry(entityId, deviceId)
 
         await self._hass.async_add_executor_job(
-            self._deleteFromDatabase, entityIds
+            self._deleteFromDatabase, entityIds, deviceId
         )
 
     async def async_device_unload(self, deviceId):
@@ -52,7 +52,7 @@ class AssignManager:
         if not assignedEntityIds:
             return
 
-        await self.async_entity_unassign(assignedEntityIds)
+        await self.async_entity_unassign(assignedEntityIds, deviceId)
 
     async def async_device_setup(self, deviceId):
         assignedEntityIds = await self._hass.async_add_executor_job(
@@ -122,14 +122,14 @@ class AssignManager:
                     modifiedAt = excluded.modifiedAt
             ''', [(entityId, deviceId, now, now) for entityId in entityIds])
 
-    def _deleteFromDatabase(self, entityIds):
+    def _deleteFromDatabase(self, entityIds, deviceId):
         if isinstance(entityIds, str):
             entityIds = [entityIds]
 
         with Database.connect(self._storagePath) as connection:
             connection.executemany(
-                'DELETE FROM assignments WHERE entityId = ?',
-                [(entityId,) for entityId in entityIds],
+                'DELETE FROM assignments WHERE entityId = ? AND deviceId = ?',
+                [(entityId, deviceId) for entityId in entityIds],
             )
 
     def _storeInRegistry(self, entityId, deviceId):
@@ -149,14 +149,14 @@ class AssignManager:
 
         return True
 
-    def _deleteFromRegistry(self, entityId, deviceId=None):
+    def _deleteFromRegistry(self, entityId, deviceId):
         entityRegistry = entity_registry.async_get(self._hass)
         entityEntry = entityRegistry.async_get(entityId)
 
         if entityEntry is None:
             return False
 
-        if deviceId is not None and entityEntry.device_id != deviceId:
+        if entityEntry.device_id != deviceId:
             return False
 
         entityRegistry.async_update_entity(entity_id=entityEntry.entity_id, device_id=None)

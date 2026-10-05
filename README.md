@@ -71,6 +71,7 @@ Removes an entity from its assigned device.
 | Field       | Description            |
 |-------------|------------------------|
 | `entity_id` | The entity to unassign |
+| `device_id` | The target device      |
 
 ### `status`
 

@@ -27,6 +27,12 @@ unassign:
       selector:
         entity:
           multiple: true
+    device_id:
+      required: true
+      description: The ID of the device from which the entity will be unassigned.
+      example: "9ede4ee75fe68ef29a139980b1eb756d"
+      selector:
+        device:
 
 status:
   name: Get assignment status

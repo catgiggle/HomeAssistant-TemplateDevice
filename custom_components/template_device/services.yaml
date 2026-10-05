@@ -34,6 +34,17 @@ unassign:
       selector:
         device:
 
+clear:
+  name: Clear all entities from device
+  description: Removes all entity assignments from a specific device.
+  fields:
+    device_id:
+      required: true
+      description: The ID of the device from which all entities will be unassigned.
+      example: "9ede4ee75fe68ef29a139980b1eb756d"
+      selector:
+        device:
+
 status:
   name: Get assignment status
   description: Returns the current assignment status of entities and devices.

@@ -4,6 +4,7 @@ from .constants import *
 from .model.AssignManager import AssignManager
 from .model.StorageBuilder import StorageBuilder
 from .service.AssignService import AssignService
+from .service.ClearService import ClearService
 from .service.StatusService import StatusService
 from .service.UnassignService import UnassignService
 
@@ -16,6 +17,7 @@ async def async_setup(hass, _config):
     await StorageBuilder(hass, config[CONFIG_STORAGE_PATH]).async_build()
     AssignService(hass).register()
     UnassignService(hass).register()
+    ClearService(hass).register()
     StatusService(hass).register()
 
     return True

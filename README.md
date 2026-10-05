@@ -47,6 +47,7 @@ You can add **multiple instances** of this integration. Each instance represents
 - Assign any entity to any device (including existing devices)
 - Assign entities across different integrations
 - Remove entity assignments at any time
+- Clear all entity assignments from a device
 - Organize entities independently of their source integration
 - Improve UI clarity by grouping related entities
 - Works with all entity types
@@ -72,6 +73,14 @@ Removes an entity from its assigned device.
 |-------------|------------------------|
 | `entity_id` | The entity to unassign |
 | `device_id` | The target device      |
+
+### `clear`
+
+Removes all entity assignments from a specific device.
+
+| Field       | Description       |
+|-------------|-------------------|
+| `device_id` | The target device |
 
 ### `status`
 

@@ -2,6 +2,7 @@ from homeassistant.helpers import config_validation as cv, device_registry
 
 from .constants import *
 from .model.AssignManager import AssignManager
+from .model.DiagnosticCoordinator import DiagnosticCoordinator
 from .model.StorageBuilder import StorageBuilder
 from .service.AssignService import AssignService
 from .service.ClearService import ClearService
@@ -25,6 +26,7 @@ async def async_setup(hass, _config):
 
 async def async_setup_entry(hass, entry):
     await _createEntryConfig(hass, entry)
+    await hass.data[DOMAIN][CONFIG_DIAGNOSTIC_COORDINATOR].async_refresh()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     await _setupDevice(hass, entry)
 
@@ -47,9 +49,13 @@ async def async_remove_entry(hass, entry):
 
 async def _createRootConfig(hass):
     path = hass.config.path(f".storage/{DOMAIN}/storage.db")
+    assignManager = AssignManager(hass, path)
+    diagnosticCoordinator = DiagnosticCoordinator(hass, assignManager)
+
     config = {
         CONFIG_STORAGE_PATH: path,
-        CONFIG_ASSIGN_MANAGER: AssignManager(hass, path),
+        CONFIG_ASSIGN_MANAGER: assignManager,
+        CONFIG_DIAGNOSTIC_COORDINATOR: diagnosticCoordinator,
     }
     hass.data.setdefault(DOMAIN, config)
 
@@ -79,6 +85,7 @@ async def _setupDevice(hass, entry):
 
         if config and CONFIG_ASSIGN_MANAGER in config:
             await config[CONFIG_ASSIGN_MANAGER].async_device_setup(deviceEntry.id)
+            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()
 
 
 async def _unloadDevice(hass, entry):
@@ -90,6 +97,7 @@ async def _unloadDevice(hass, entry):
 
         if config and CONFIG_ASSIGN_MANAGER in config:
             await config[CONFIG_ASSIGN_MANAGER].async_device_unload(deviceEntry.id)
+            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()
 
 
 async def _cleanupDevice(hass, entry):
@@ -101,3 +109,4 @@ async def _cleanupDevice(hass, entry):
 
         if config and CONFIG_ASSIGN_MANAGER in config:
             await config[CONFIG_ASSIGN_MANAGER].async_device_cleanup(deviceEntry.id)
+            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()

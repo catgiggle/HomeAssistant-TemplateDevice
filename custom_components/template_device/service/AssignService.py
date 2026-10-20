@@ -24,3 +24,4 @@ class AssignService:
             request.data.get(FIELD_ENTITY_ID),
             request.data.get(FIELD_DEVICE_ID)
         )
+        await self._hass.data[DOMAIN][CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()

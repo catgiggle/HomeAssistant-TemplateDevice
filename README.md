@@ -15,7 +15,7 @@ It is especially useful when you want to:
 
 This integration is installed via **HACS**:
 
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=catgiggle&repository=HomeAssistant-TemplateDevice)
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=catgiggle&category=Integration&repository=HomeAssistant-TemplateDevice)
 
 1. Click the button above to open the repository in HACS.
 2. Click **Download** to download the integration.

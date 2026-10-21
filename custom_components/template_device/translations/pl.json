@@ -7,12 +7,27 @@
     "step": {
       "user": {
         "title": "Template Device",
+        "description": "Wybierz typ konfiguracji:",
+        "menu_options": {
+          "device": "Wirtualne urządzenie",
+          "diagnostics": "Diagnostyka"
+        }
+      },
+      "device": {
+        "title": "Wirtualne urządzenie",
         "description": "Pozwala utworzyć wirtualne urządzenie do organizowania i grupowania encji.",
         "data": {
           "display_name": "Nazwa wyświetlana",
           "internal_name": "Nazwa wewnętrzna i prefiks encji"
         }
+      },
+      "diagnostics": {
+        "title": "Diagnostyka",
+        "description": "Utwórz wpis diagnostyczny do monitorowania stanu integracji Template Device."
       }
+    },
+    "abort": {
+      "already_configured": "Diagnostyka jest już skonfigurowana."
     }
   }
 }

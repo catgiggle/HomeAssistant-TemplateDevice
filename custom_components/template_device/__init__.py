@@ -1,6 +1,8 @@
-from homeassistant.helpers import config_validation as cv, device_registry
+from homeassistant.helpers import config_validation as cv
 
 from .constants import *
+from .entry.DeviceEntry import DeviceEntry
+from .entry.DiagnosticsEntry import DiagnosticsEntry
 from .model.AssignManager import AssignManager
 from .model.DiagnosticCoordinator import DiagnosticCoordinator
 from .model.StorageBuilder import StorageBuilder
@@ -24,27 +26,48 @@ async def async_setup(hass, _config):
     return True
 
 
+async def async_migrate_entry(hass, entry):
+    if CONFIG_ENTRY_TYPE not in entry.data:
+        hass.config_entries.async_update_entry(
+            entry,
+            data={**entry.data, CONFIG_ENTRY_TYPE: ENTRY_TYPE_DEVICE},
+        )
+
+    return True
+
+
 async def async_setup_entry(hass, entry):
-    await _createEntryConfig(hass, entry)
-    await hass.data[DOMAIN][CONFIG_DIAGNOSTIC_COORDINATOR].async_refresh()
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    await _setupDevice(hass, entry)
+    entryType = entry.data.get(CONFIG_ENTRY_TYPE)
+
+    if entryType == ENTRY_TYPE_DIAGNOSTICS:
+        return await DiagnosticsEntry(hass, entry).async_setup()
+
+    if entryType == ENTRY_TYPE_DEVICE:
+        return await DeviceEntry(hass, entry).async_setup()
 
     return True
 
 
 async def async_unload_entry(hass, entry):
-    if await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        await _unloadDevice(hass, entry)
-        await _removeEntryConfig(hass, entry)
+    entryType = entry.data.get(CONFIG_ENTRY_TYPE)
 
-        return True
+    if entryType == ENTRY_TYPE_DIAGNOSTICS:
+        return await DiagnosticsEntry(hass, entry).async_unload()
 
-    return False
+    if entryType == ENTRY_TYPE_DEVICE:
+        return await DeviceEntry(hass, entry).async_unload()
+
+    return True
 
 
 async def async_remove_entry(hass, entry):
-    await _cleanupDevice(hass, entry)
+    entryType = entry.data.get(CONFIG_ENTRY_TYPE)
+
+    if entryType == ENTRY_TYPE_DIAGNOSTICS:
+        return await DiagnosticsEntry(hass, entry).async_remove()
+
+    if entryType == ENTRY_TYPE_DEVICE:
+        return await DeviceEntry(hass, entry).async_remove()
 
 
 async def _createRootConfig(hass):
@@ -60,53 +83,3 @@ async def _createRootConfig(hass):
     hass.data.setdefault(DOMAIN, config)
 
     return config
-
-
-async def _createEntryConfig(hass, entry):
-    config = {
-        CONFIG_DISPLAY_NAME: entry.data.get(CONFIG_DISPLAY_NAME),
-        CONFIG_INTERNAL_NAME: entry.data.get(CONFIG_INTERNAL_NAME),
-    }
-    hass.data[DOMAIN][entry.entry_id] = config
-
-    return config
-
-
-async def _removeEntryConfig(hass, entry):
-    hass.data[DOMAIN].pop(entry.entry_id, None)
-
-
-async def _setupDevice(hass, entry):
-    deviceRegistry = device_registry.async_get(hass)
-    deviceEntry = deviceRegistry.async_get_device(identifiers={(DOMAIN, entry.entry_id)})
-
-    if deviceEntry:
-        config = hass.data.get(DOMAIN)
-
-        if config and CONFIG_ASSIGN_MANAGER in config:
-            await config[CONFIG_ASSIGN_MANAGER].async_device_setup(deviceEntry.id)
-            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()
-
-
-async def _unloadDevice(hass, entry):
-    deviceRegistry = device_registry.async_get(hass)
-    deviceEntry = deviceRegistry.async_get_device(identifiers={(DOMAIN, entry.entry_id)})
-
-    if deviceEntry:
-        config = hass.data.get(DOMAIN)
-
-        if config and CONFIG_ASSIGN_MANAGER in config:
-            await config[CONFIG_ASSIGN_MANAGER].async_device_unload(deviceEntry.id)
-            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()
-
-
-async def _cleanupDevice(hass, entry):
-    deviceRegistry = device_registry.async_get(hass)
-    deviceEntry = deviceRegistry.async_get_device(identifiers={(DOMAIN, entry.entry_id)})
-
-    if deviceEntry:
-        config = hass.data.get(DOMAIN)
-
-        if config and CONFIG_ASSIGN_MANAGER in config:
-            await config[CONFIG_ASSIGN_MANAGER].async_device_cleanup(deviceEntry.id)
-            await config[CONFIG_DIAGNOSTIC_COORDINATOR].async_request_refresh()

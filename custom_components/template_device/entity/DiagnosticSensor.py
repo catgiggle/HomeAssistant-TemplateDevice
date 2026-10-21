@@ -8,11 +8,11 @@ from ..constants import DOMAIN
 class DiagnosticSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
 
-    def __init__(self, key, name, prefix, deviceInfo, diagnosticCoordinator):
+    def __init__(self, key, name, deviceInfo, diagnosticCoordinator):
         super().__init__(diagnosticCoordinator)
         self._key = key
         self._attr_name = name
-        self._attr_unique_id = f"{DOMAIN}_{prefix}_{key}"
+        self._attr_unique_id = f"{DOMAIN}_{key}"
         self._attr_suggested_object_id = self._attr_unique_id
         self._attr_device_info = deviceInfo
         self._attr_entity_category = EntityCategory.DIAGNOSTIC

@@ -7,12 +7,27 @@
     "step": {
       "user": {
         "title": "Template Device",
+        "description": "Choose setup type:",
+        "menu_options": {
+          "device": "Virtual Device",
+          "diagnostics": "Diagnostics"
+        }
+      },
+      "device": {
+        "title": "Virtual Device",
         "description": "Allows you to create a virtual device to organize and group entities.",
         "data": {
           "display_name": "Display name",
           "internal_name": "Internal name and entity prefix"
         }
+      },
+      "diagnostics": {
+        "title": "Diagnostics",
+        "description": "Create a diagnostics entry to monitor Template Device integration health."
       }
+    },
+    "abort": {
+      "already_configured": "Diagnostics is already configured."
     }
   }
 }

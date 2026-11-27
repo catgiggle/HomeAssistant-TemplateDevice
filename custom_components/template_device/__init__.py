@@ -8,6 +8,7 @@ from .model.DiagnosticCoordinator import DiagnosticCoordinator
 from .model.StorageBuilder import StorageBuilder
 from .service.AssignService import AssignService
 from .service.ClearService import ClearService
+from .service.ReassignService import ReassignService
 from .service.StatusService import StatusService
 from .service.UnassignService import UnassignService
 
@@ -20,6 +21,7 @@ async def async_setup(hass, _config):
     await StorageBuilder(hass, config[CONFIG_STORAGE_PATH]).async_build()
     AssignService(hass).register()
     UnassignService(hass).register()
+    ReassignService(hass).register()
     ClearService(hass).register()
     StatusService(hass).register()
 

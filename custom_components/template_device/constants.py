@@ -2,7 +2,7 @@ NAME = 'Template Device'
 DOMAIN = 'template_device'
 PLATFORMS = ['sensor']
 AUTHOR = 'Damian Wójcik'
-VERSION = '0.4.1'
+VERSION = '0.4.2'
 
 CONFIG_ASSIGN_MANAGER = 'assign_manager'
 CONFIG_DIAGNOSTIC_COORDINATOR = 'diagnostic_coordinator'

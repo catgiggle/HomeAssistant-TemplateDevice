@@ -34,6 +34,24 @@ unassign:
       selector:
         device:
 
+reassign:
+  name: Reassign entities to device
+  description: Reassigns entity assignments for a specific device, assigning specified entities and removing any currently assigned entities not in the list.
+  fields:
+    entity_id:
+      required: true
+      description: The ID of the entities that will be assigned to the device.
+      example: "sensor.example_sensor"
+      selector:
+        entity:
+          multiple: true
+    device_id:
+      required: true
+      description: The ID of the device to which the entities will be assigned.
+      example: "9ede4ee75fe68ef29a139980b1eb756d"
+      selector:
+        device:
+
 clear:
   name: Clear all entities from device
   description: Removes all entity assignments from a specific device.

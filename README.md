@@ -74,6 +74,15 @@ Removes an entity from its assigned device.
 | `entity_id` | The entity to unassign |
 | `device_id` | The target device      |
 
+### `reassign`
+
+Reassigns entity assignments for a device, assigning specified entities and removing any entities not in the list.
+
+| Field       | Description          |
+|-------------|----------------------|
+| `entity_id` | The entity to assign |
+| `device_id` | The target device    |
+
 ### `clear`
 
 Removes all entity assignments from a specific device.

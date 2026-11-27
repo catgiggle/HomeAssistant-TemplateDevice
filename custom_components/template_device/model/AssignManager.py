@@ -33,6 +33,19 @@ class AssignManager:
             self._deleteFromDatabase, entityIds, deviceId
         )
 
+    async def async_entity_reassign(self, entityIds, deviceId):
+        if isinstance(entityIds, str):
+            entityIds = [entityIds]
+
+        assignedEntityIds = await self._hass.async_add_executor_job(self._getAssignmentsForDevice, deviceId)
+        unassignedEntityIds = list(set(assignedEntityIds) - set(entityIds))
+
+        if unassignedEntityIds:
+            await self.async_entity_unassign(unassignedEntityIds, deviceId)
+
+        if entityIds:
+            await self.async_entity_assign(entityIds, deviceId)
+
     async def async_device_unload(self, deviceId):
         assignedEntityIds = await self._hass.async_add_executor_job(
             self._getAssignmentsForDevice, deviceId
